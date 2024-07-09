@@ -27,7 +27,7 @@ docker run aafs1981/fullcycle
 ```
 ##### Isso exibirá a mensagem no console.
 
-### Detalhes Técnicos
+## Detalhes Técnicos
 
 🔹 A imagem Docker foi construída a partir da imagem oficial do Golang Alpine para minimizar o tamanho.
 
