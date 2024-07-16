@@ -33,17 +33,19 @@ Para ambiente de desenvolvimento, um volume é configurado para facilitar a modi
 
 🔹 Clone o repositório:
 
-bash
-Copiar código
-git clone https://github.com/seu-usuario/seu-repositorio.git
-cd seu-repositorio
-Execute o Docker Compose:
+```bash
+git clone git@github.com:AngeloSouza1/Desafios-Full-Cycle.git
+cd desafio-nginx-node-mysql
+```
+🔹 Execute o Docker Compose:
 
-Copiar código
+```bash
 docker-compose up -d
-Acesse o aplicativo através do seu navegador em http://localhost:8080.
+Acesse o aplicativo através do seu navegador em http://localhost:8081.
+```
 
-Contribuições
+## Contribuições
+
 Contribuições são bem-vindas! Sinta-se à vontade para fazer um fork do projeto e enviar suas melhorias através de pull requests.
 
 
