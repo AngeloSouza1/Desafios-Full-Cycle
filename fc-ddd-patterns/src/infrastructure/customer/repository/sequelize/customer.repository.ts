@@ -8,10 +8,10 @@ export default class CustomerRepository implements CustomerRepositoryInterface {
     await CustomerModel.create({
       id: entity.id,
       name: entity.name,
-      street: entity.Address.street,
-      number: entity.Address.number,
-      zipcode: entity.Address.zip,
-      city: entity.Address.city,
+      street: entity.address.street,  // Correção: 'address' com "a" minúsculo
+      number: entity.address.number,  // Correção: 'address' com "a" minúsculo
+      zipcode: entity.address.zip,  // Correção: 'address' com "a" minúsculo
+      city: entity.address.city,  // Correção: 'address' com "a" minúsculo
       active: entity.isActive(),
       rewardPoints: entity.rewardPoints,
     });
@@ -21,10 +21,10 @@ export default class CustomerRepository implements CustomerRepositoryInterface {
     await CustomerModel.update(
       {
         name: entity.name,
-        street: entity.Address.street,
-        number: entity.Address.number,
-        zipcode: entity.Address.zip,
-        city: entity.Address.city,
+        street: entity.address.street,  // Correção: 'address' com "a" minúsculo
+        number: entity.address.number,  // Correção: 'address' com "a" minúsculo
+        zipcode: entity.address.zip,  // Correção: 'address' com "a" minúsculo
+        city: entity.address.city,  // Correção: 'address' com "a" minúsculo
         active: entity.isActive(),
         rewardPoints: entity.rewardPoints,
       },
@@ -63,17 +63,17 @@ export default class CustomerRepository implements CustomerRepositoryInterface {
   async findAll(): Promise<Customer[]> {
     const customerModels = await CustomerModel.findAll();
 
-    const customers = customerModels.map((customerModels) => {
-      let customer = new Customer(customerModels.id, customerModels.name);
-      customer.addRewardPoints(customerModels.rewardPoints);
+    const customers = customerModels.map((customerModel) => {
+      let customer = new Customer(customerModel.id, customerModel.name);
+      customer.addRewardPoints(customerModel.rewardPoints);
       const address = new Address(
-        customerModels.street,
-        customerModels.number,
-        customerModels.zipcode,
-        customerModels.city
+        customerModel.street,
+        customerModel.number,
+        customerModel.zipcode,
+        customerModel.city
       );
       customer.changeAddress(address);
-      if (customerModels.active) {
+      if (customerModel.active) {
         customer.activate();
       }
       return customer;

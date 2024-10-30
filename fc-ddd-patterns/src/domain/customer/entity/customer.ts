@@ -25,6 +25,14 @@ export default class Customer {
     return this._rewardPoints;
   }
 
+  get address(): Address {  // Getter da propriedade address
+    return this._address;
+  }
+
+  set address(address: Address) {  // Setter da propriedade address
+    this._address = address;
+  }
+
   validate() {
     if (this._id.length === 0) {
       throw new Error("Id is required");
@@ -39,12 +47,8 @@ export default class Customer {
     this.validate();
   }
 
-  get Address(): Address {
-    return this._address;
-  }
-  
   changeAddress(address: Address) {
-    this._address = address;
+    this._address = address;  // Atualiza o endereço
   }
 
   isActive(): boolean {
@@ -52,7 +56,7 @@ export default class Customer {
   }
 
   activate() {
-    if (this._address === undefined) {
+    if (!this._address) {
       throw new Error("Address is mandatory to activate a customer");
     }
     this._active = true;
@@ -64,9 +68,5 @@ export default class Customer {
 
   addRewardPoints(points: number) {
     this._rewardPoints += points;
-  }
-
-  set Address(address: Address) {
-    this._address = address;
   }
 }

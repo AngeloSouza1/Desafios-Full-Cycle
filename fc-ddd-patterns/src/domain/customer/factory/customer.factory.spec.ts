@@ -7,7 +7,7 @@ describe("Customer factory unit test", () => {
 
     expect(customer.id).toBeDefined();
     expect(customer.name).toBe("John");
-    expect(customer.Address).toBeUndefined();
+    expect(customer.address).toBeUndefined();  // Correção: 'address' com "a" minúsculo
   });
 
   it("should create a customer with an address", () => {
@@ -17,6 +17,6 @@ describe("Customer factory unit test", () => {
 
     expect(customer.id).toBeDefined();
     expect(customer.name).toBe("John");
-    expect(customer.Address).toBe(address);
+    expect(customer.address).toBe(address);  // Correção: 'address' com "a" minúsculo
   });
 });

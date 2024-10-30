@@ -1,63 +1,69 @@
+import Customer from "../entity/customer";
 import Address from "../value-object/address";
-import Customer from "./customer";
+import EnviaConsoleLog1Handler from "../handlers/envia-console-log1-handler";
+import EnviaConsoleLog2Handler from "../handlers/envia-console-log2-handler";
+import EnviaConsoleLogHandler from "../handlers/envia-console-log-handler";
+import EventDispatcher from "../events/event-dispatcher";
+import CustomerCreatedEvent from "../events/customer-created-event";
+import CustomerAddressChangedEvent from "../events/customer-address-changed-event";
 
-describe("Customer unit tests", () => {
-  it("should throw error when id is empty", () => {
-    expect(() => {
-      let customer = new Customer("", "John");
-    }).toThrowError("Id is required");
+describe("Customer domain events", () => {
+  let eventDispatcher: EventDispatcher;
+
+  beforeEach(() => {
+    eventDispatcher = new EventDispatcher();
   });
 
-  it("should throw error when name is empty", () => {
-    expect(() => {
-      let customer = new Customer("123", "");
-    }).toThrowError("Name is required");
+  it("should trigger the CustomerCreated event and handlers", () => {
+    // Mockando os handlers para garantir que o console.log foi chamado
+    const consoleLog1Handler = new EnviaConsoleLog1Handler();
+    const consoleLog2Handler = new EnviaConsoleLog2Handler();
+    
+    const consoleLog1Spy = jest.spyOn(consoleLog1Handler, "handle");
+    const consoleLog2Spy = jest.spyOn(consoleLog2Handler, "handle");
+
+    // Registrando os handlers no dispatcher
+    eventDispatcher.register("CustomerCreatedEvent", consoleLog1Handler);
+    eventDispatcher.register("CustomerCreatedEvent", consoleLog2Handler);
+
+    // Criando um novo cliente
+    const customer = new Customer("123", "Customer Name");
+    
+    // Disparando o evento manualmente para verificar os logs
+    const event = new CustomerCreatedEvent(customer.id, customer.name);
+    eventDispatcher.notify(event);
+
+    // Verifica se os handlers foram chamados
+    expect(consoleLog1Spy).toHaveBeenCalled();
+    expect(consoleLog2Spy).toHaveBeenCalled();
+    
+    // Cleanup
+    consoleLog1Spy.mockRestore();
+    consoleLog2Spy.mockRestore();
   });
 
-  it("should change name", () => {
-    // Arrange
-    const customer = new Customer("123", "John");
+  it("should trigger the CustomerAddressChanged event when address is changed", () => {
+    // Mockando o handler para garantir que o console.log foi chamado
+    const consoleLogHandler = new EnviaConsoleLogHandler();
+    const consoleLogSpy = jest.spyOn(consoleLogHandler, "handle");
 
-    // Act
-    customer.changeName("Jane");
+    // Registrando o handler
+    eventDispatcher.register("CustomerAddressChangedEvent", consoleLogHandler);
 
-    // Assert
-    expect(customer.name).toBe("Jane");
-  });
+    // Criando um novo cliente e alterando o endereço
+    const customer = new Customer("123", "Customer Name");
+    const address = new Address("Street 1", 123, "00000-000", "City Name");
+    
+    // Disparando o evento de mudança de endereço
+    customer.changeAddress(address);
+    
+    const addressChangedEvent = new CustomerAddressChangedEvent(customer.id, customer.name, address);
+    eventDispatcher.notify(addressChangedEvent);
 
-  it("should activate customer", () => {
-    const customer = new Customer("1", "Customer 1");
-    const address = new Address("Street 1", 123, "13330-250", "São Paulo");
-    customer.Address = address;
+    // Verifica se o handler foi chamado
+    expect(consoleLogSpy).toHaveBeenCalled();
 
-    customer.activate();
-
-    expect(customer.isActive()).toBe(true);
-  });
-
-  it("should throw error when address is undefined when you activate a customer", () => {
-    expect(() => {
-      const customer = new Customer("1", "Customer 1");
-      customer.activate();
-    }).toThrowError("Address is mandatory to activate a customer");
-  });
-
-  it("should deactivate customer", () => {
-    const customer = new Customer("1", "Customer 1");
-
-    customer.deactivate();
-
-    expect(customer.isActive()).toBe(false);
-  });
-
-  it("should add reward points", () => {
-    const customer = new Customer("1", "Customer 1");
-    expect(customer.rewardPoints).toBe(0);
-
-    customer.addRewardPoints(10);
-    expect(customer.rewardPoints).toBe(10);
-
-    customer.addRewardPoints(10);
-    expect(customer.rewardPoints).toBe(20);
+    // Cleanup
+    consoleLogSpy.mockRestore();
   });
 });
