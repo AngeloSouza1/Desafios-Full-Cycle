@@ -1,0 +1,34 @@
+{
+  "compilerOptions": {
+    /* General */
+    "incremental": true,
+    "target": "es2020",
+    "module": "commonjs",
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "outDir": "./dist",
+    "esModuleInterop": true,
+
+    /* Decorators */
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+
+    /* Type Definitions */
+    "types": ["node", "jest"],                          /* Add jest type definitions */
+
+    /* Additional Checks */
+    "strictNullChecks": false,
+
+    /* Path Aliases */
+    "baseUrl": "./src",
+    "paths": {
+      "@src/*": ["*"],
+      "@domain/*": ["domain/*"]
+    }
+  },
+  "include": [
+    "src/**/*.ts",
+    "tests/**/*.ts"                                     /* Include tests folder if applicable */
+  ]
+}
