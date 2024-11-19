@@ -25,25 +25,28 @@ export default class Product implements ProductInterface {
   }
 
   changeName(name: string): void {
+    if (!name) {
+      throw new Error("Name is required");
+    }
     this._name = name;
-    this.validate();
   }
 
   changePrice(price: number): void {
+    if (price < 0) {
+      throw new Error("Price must be greater than zero");
+    }
     this._price = price;
-    this.validate();
   }
 
-  validate(): boolean {
-    if (this._id.length === 0) {
+  private validate(): void {
+    if (!this._id) {
       throw new Error("Id is required");
     }
-    if (this._name.length === 0) {
+    if (!this._name) {
       throw new Error("Name is required");
     }
     if (this._price < 0) {
       throw new Error("Price must be greater than zero");
     }
-    return true;
   }
 }

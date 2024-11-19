@@ -1,6 +1,6 @@
 import CreateProductUseCase from "./create-product.usecase";
-import ProductRepositoryInterface from "../../repository/product-repository.interface";
-import Product from "../../entity/product";
+import ProductRepositoryInterface from "@domain/product/repository/product-repository.interface";
+import Product from "@domain/product/entity/product";
 
 const MockRepository = () => ({
   create: jest.fn(),

@@ -47,7 +47,7 @@ describe("Order repository test", () => {
     const product = new Product("123", "Product 1", 10);
     await productRepository.create(product);
 
-    const ordemItem = new OrderItem(
+    const orderItem = new OrderItem(
       "1",
       product.name,
       product.price,
@@ -55,7 +55,7 @@ describe("Order repository test", () => {
       2
     );
 
-    const order = new Order("123", "123", [ordemItem]);
+    const order = new Order("123", "123", [orderItem]);
 
     const orderRepository = new OrderRepository();
     await orderRepository.create(order);
@@ -65,20 +65,25 @@ describe("Order repository test", () => {
       include: ["items"],
     });
 
-    expect(orderModel.toJSON()).toStrictEqual({
-      id: "123",
-      customer_id: "123",
-      total: order.total(),
-      items: [
-        {
-          id: ordemItem.id,
-          name: ordemItem.name,
-          price: ordemItem.price,
-          quantity: ordemItem.quantity,
-          order_id: "123",
-          product_id: "123",
-        },
-      ],
-    });
+    // Verifique se orderModel não é nulo antes de acessar suas propriedades
+    if (orderModel) {
+      expect(orderModel.toJSON()).toStrictEqual({
+        id: "123",
+        customer_id: "123",
+        total: order.total(),
+        items: [
+          {
+            id: orderItem.id,
+            name: orderItem.name,
+            price: orderItem.price,
+            quantity: orderItem.quantity,
+            order_id: "123",
+            product_id: "123",
+          },
+        ],
+      });
+    } else {
+      throw new Error("Order model not found");
+    }
   });
 });

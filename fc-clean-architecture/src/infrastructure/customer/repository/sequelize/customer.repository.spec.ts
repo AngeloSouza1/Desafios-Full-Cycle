@@ -32,16 +32,20 @@ describe("Customer repository test", () => {
 
     const customerModel = await CustomerModel.findOne({ where: { id: "123" } });
 
-    expect(customerModel.toJSON()).toStrictEqual({
-      id: "123",
-      name: customer.name,
-      active: customer.isActive(),
-      rewardPoints: customer.rewardPoints,
-      street: address.street,
-      number: address.number,
-      zipcode: address.zip,
-      city: address.city,
-    });
+    if (customerModel) {
+      expect(customerModel.toJSON()).toStrictEqual({
+        id: "123",
+        name: customer.name,
+        active: customer.isActive(),
+        rewardPoints: customer.rewardPoints,
+        street: address.street,
+        number: address.number,
+        zipcode: address.zip,
+        city: address.city,
+      });
+    } else {
+      throw new Error("customerModel is null");
+    }
   });
 
   it("should update a customer", async () => {
@@ -55,16 +59,20 @@ describe("Customer repository test", () => {
     await customerRepository.update(customer);
     const customerModel = await CustomerModel.findOne({ where: { id: "123" } });
 
-    expect(customerModel.toJSON()).toStrictEqual({
-      id: "123",
-      name: customer.name,
-      active: customer.isActive(),
-      rewardPoints: customer.rewardPoints,
-      street: address.street,
-      number: address.number,
-      zipcode: address.zip,
-      city: address.city,
-    });
+    if (customerModel) {
+      expect(customerModel.toJSON()).toStrictEqual({
+        id: "123",
+        name: customer.name,
+        active: customer.isActive(),
+        rewardPoints: customer.rewardPoints,
+        street: address.street,
+        number: address.number,
+        zipcode: address.zip,
+        city: address.city,
+      });
+    } else {
+      throw new Error("customerModel is null");
+    }
   });
 
   it("should find a customer", async () => {
@@ -82,7 +90,7 @@ describe("Customer repository test", () => {
   it("should throw an error when customer is not found", async () => {
     const customerRepository = new CustomerRepository();
 
-    expect(async () => {
+    await expect(async () => {
       await customerRepository.find("456ABC");
     }).rejects.toThrow("Customer not found");
   });

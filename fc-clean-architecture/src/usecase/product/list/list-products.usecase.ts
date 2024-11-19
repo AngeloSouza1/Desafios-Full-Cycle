@@ -1,4 +1,6 @@
-import ProductRepositoryInterface from "../../repository/product-repository.interface";
+import Product from "@domain/product/entity/product";
+import ProductRepositoryInterface from "@domain/product/repository/product-repository.interface";
+
 
 interface ListProductsOutputDto {
   id: string;
@@ -11,7 +13,9 @@ export default class ListProductsUseCase {
 
   async execute(): Promise<ListProductsOutputDto[]> {
     const products = await this.productRepository.findAll();
-    return products.map(product => ({
+
+    // Especifica explicitamente o tipo do parâmetro product
+    return products.map((product: Product) => ({
       id: product.id,
       name: product.name,
       price: product.price,

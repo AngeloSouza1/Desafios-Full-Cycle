@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    /* General */
+    /* General Options */
     "incremental": true,
     "target": "es2020",
     "module": "commonjs",
@@ -9,26 +9,36 @@
     "skipLibCheck": true,
     "outDir": "./dist",
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
 
     /* Decorators */
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
 
     /* Type Definitions */
-    "types": ["node", "jest"],                          /* Add jest type definitions */
+    "types": ["node", "jest"],
 
     /* Additional Checks */
-    "strictNullChecks": false,
+    "strictNullChecks": true,
 
     /* Path Aliases */
     "baseUrl": "./src",
     "paths": {
       "@src/*": ["*"],
-      "@domain/*": ["domain/*"]
-    }
+      "@domain/*": ["domain/*"],
+      "@shared/*": ["domain/@shared/*"],
+      "@product/*": ["domain/product/*"]
+    },
+
+    /* Libraries */
+    "lib": ["es2020", "dom"]
   },
   "include": [
     "src/**/*.ts",
-    "tests/**/*.ts"                                     /* Include tests folder if applicable */
+    "tests/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
   ]
 }
