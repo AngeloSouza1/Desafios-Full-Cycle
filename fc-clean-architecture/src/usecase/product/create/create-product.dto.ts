@@ -1,4 +1,3 @@
-// src/usecase/product/create/create-product.dto.ts
 
 export interface CreateProductInputDto {
   id: string;

@@ -18,18 +18,20 @@ describe("List Products Use Case", () => {
 
     const output = await listProductsUseCase.execute();
 
-    expect(output).toEqual([
-      {
-        id: "1",
-        name: "Product 1",
-        price: 100,
-      },
-      {
-        id: "2",
-        name: "Product 2",
-        price: 200,
-      },
-    ]);
+    expect(output).toEqual({
+      products: [
+        {
+          id: "1",
+          name: "Product 1",
+          price: 100,
+        },
+        {
+          id: "2",
+          name: "Product 2",
+          price: 200,
+        },
+      ],
+    });
 
     expect(productRepository.findAll).toHaveBeenCalled();
   });

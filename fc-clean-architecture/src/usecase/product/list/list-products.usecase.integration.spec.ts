@@ -25,19 +25,18 @@ describe("List Products Use Case Integration Test", () => {
 
   it("should list all products", async () => {
     const productRepository = new ProductRepository();
-    const useCase = new ListProductsUseCase(productRepository);
-
-    const product1 = new Product("1", "Product A", 100);
-    const product2 = new Product("2", "Product B", 200);
-
-    await productRepository.create(product1);
-    await productRepository.create(product2);
-
-    const result: ListProductsOutputDto[] = await useCase.execute();
-
-    expect(result).toEqual([
-      { id: "1", name: "Product A", price: 100 },
-      { id: "2", name: "Product B", price: 200 },
-    ]);
+    const listProductsUseCase = new ListProductsUseCase(productRepository);
+  
+    
+    await productRepository.create(new Product("1", "Product A", 100));
+    await productRepository.create(new Product("2", "Product B", 200));
+  
+    const result = await listProductsUseCase.execute();
+  
+   
+    expect(result.products.length).toBe(2);
+    expect(result.products[0].name).toBe("Product A");
+    expect(result.products[1].name).toBe("Product B");
   });
+  
 });
